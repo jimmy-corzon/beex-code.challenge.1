@@ -1,0 +1,64 @@
+{
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions:main",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions:main",
+    "logs": "firebase functions:log",
+    "test": "vitest --config vitest.config.ts",
+    "serve:local": "npm run build && firebase emulators:start --only \"functions:main,auth\" --import=./emulator_data --export-on-exit",
+    "dev": "run-p build:watch serve",
+    "dev:local": "run-p build:watch serve:local",
+    "db:reset": "npx prisma migrate reset --skip-seed",
+    "db:migrate": "npx prisma migrate dev --skip-seed --name init",
+    "db:seed": "npx prisma db seed",
+    "db:generate": "npx prisma generate",
+    "db:studio": "npx prisma studio",
+    "db:migrate:dev": "npx prisma migrate dev --skip-seed --name $(date +'%Y%m%d%H%M%S')",
+    "db:migrate:deploy": "npx prisma migrate deploy",
+    "generate:module": "node ~/generate-module/dist/index.js"
+  },
+  "engines": {
+    "node": "22"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
+    "@prisma/adapter-neon": "^6.4.1",
+    "@prisma/client": "^6.4.1",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^6.0.1",
+    "morgan": "^1.10.0",
+    "ws": "^8.18.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.13.9",
+    "@types/ws": "^8.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^10.0.2",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-prettier": "^5.2.3",
+    "firebase-functions-test": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.5.3",
+    "prisma": "^6.4.1",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  },
+  "private": true,
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}
