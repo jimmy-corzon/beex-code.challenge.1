@@ -1,0 +1,49 @@
+enum GameStatus {
+    open
+    waiting
+    closed
+}
+
+// Jugador
+model Player {
+    id String @id @default(uuid())
+
+    name        String  @unique
+    email       String? @unique
+    description String?
+    latitude    Float?
+    longitude   Float?
+
+    initial_ranking    Int
+    ranking            Int   @default(0)
+    profile_completion Float @default(0)
+    games_played       Int   @default(0)
+    games_won          Int   @default(0)
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    games Game[] @relation("player_games")
+
+    @@index([name])
+    @@index([latitude, longitude])
+    @@index([ranking])
+    @@map("players")
+}
+
+// Juego
+model Game {
+    id String @id @default(uuid())
+
+    title       String
+    description String?
+    status      GameStatus @default(open)
+    winner_ids  String[]
+
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+
+    players Player[] @relation("player_games")
+
+    @@map("games")
+}
